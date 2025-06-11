@@ -1,6 +1,7 @@
-#' # load example dataset to dTable.
+#' load dataset to dTable.
+#' @import tibble
 
-dTable <- tibble(read.csv('data/AudioData.csv'))
+dTable <- tibble::tibble(read.csv('data/AudioData.csv'))
 
 #' AudioData
 #'
@@ -27,13 +28,16 @@ globalVariables(c("PrePTA", "PreWRS", "PostPTA", "PostWRS", "dPTA", "dWRS", "dWR
 #' SavePreScatter
 #'
 #' @param dTable table loaded from csv file including PrePTA, PreWRS, and possibly PostPTA, PostWRS.
+#' @import ggplot2
 #'
 #' @returns png file for preop scattergram.
+#' @export
 
 SavePreScatter <- function(dTable) {
 
     ### Scatterplots
-    #' Pre-treatment PTA vs WRS
+  #'SavePreScatter
+    # Pre-treatment PTA vs WRS
 
     ###WRS bins are closed on right, open on left e.g. 0-9, 10-19, 20-29, 30-39, 40-49, 50-59, 60-69, 70-79, 80-89, 90-100
     ###PTA bins are closed on left, e.g 0-10, 11-20, 21-30, 31-40, 41-50, 51-60, 61-70, 71-80, 81-90, >/=91
@@ -72,23 +76,34 @@ SavePreScatter <- function(dTable) {
 }
 
 
+
+`%>%` = dplyr::`%>%`
+
+#' CalcChange
+#' Calculate Change between Post and Pre PTA and WRS and put in appropriate column and row for scattergram.
+#'
 #' Post-treatment change in PTA and WRS
 #' Calculate change in PTA
 #' Calculate change in WRS
 #' create new columns relating the change in WRS to the correct column for the scattergram.
 #' create new columns relating the change in PTA to the correct row for the scattergram.
 
-#' Calculate Change between Post and Pre PTA and WRS and put in appropriate column and row for scattergram.
-#'
 #' @param dTable table loaded from csv file including PrePTA, PreWRS, and possibly PostPTA, PostWRS.
+#' @import dplyr
+#' @importFrom dplyr %>%
+#' @import tidyverse
+#' @import scales
+#' @returns new table with change in PTA and WRS and columns/rows they should go in for PostScattergram.
+#' @export
+#'
 
 CalcChange <- function(dTable) {
   dTable <- dTable %>% dplyr::mutate(dPTA = PostPTA - PrePTA,
                               dWRS = PostWRS-PreWRS,
-                              dWRSCol = case_when(dWRS>40~1,(dWRS>30&dWRS<41)~2,(dWRS>20&dWRS<31)~3,(dWRS>10&dWRS<21)~4,(dWRS>0&dWRS<11)~5,(dWRS==0)~6,
+                              dWRSCol = dplyr::case_when(dWRS>40~1,(dWRS>30&dWRS<41)~2,(dWRS>20&dWRS<31)~3,(dWRS>10&dWRS<21)~4,(dWRS>0&dWRS<11)~5,(dWRS==0)~6,
                                                   (dWRS<0&dWRS>-11)~7,(dWRS<-10&dWRS>-21)~8,(dWRS<-20&dWRS>-31)~9,(dWRS<-30&dWRS>-41)~10,TRUE~11),
 
-                              dPTARow = case_when(dPTA>40~1,(dPTA>30&dPTA<41)~2,(dPTA>20&dPTA<31)~3,(dPTA>10&dPTA<21)~4,(dPTA>0&dPTA<11)~5,(dPTA==0)~6,
+                              dPTARow = dplyr::case_when(dPTA>40~1,(dPTA>30&dPTA<41)~2,(dPTA>20&dPTA<31)~3,(dPTA>10&dPTA<21)~4,(dPTA>0&dPTA<11)~5,(dPTA==0)~6,
                                                   (dPTA<0&dPTA>-11)~7,(dPTA<-10&dPTA>-21)~8,(dPTA<-20&dPTA>-31)~9,(dPTA<-30&dPTA>-41)~10,TRUE~11))
 }
 
@@ -99,7 +114,10 @@ dTablePost <- CalcChange(dTable)
 #'
 #' @param dTablePost table resulting from CalcChange with change in PTA and WRS, dPTA and dWRS, respectively, as well as the column and row dPTA and dWRS should go.
 #'
+#' @import ggplot2
+#' @import scales
 #' @returns png file of postop scattergram
+#' @export
 
 SavePostScatter <- function(dTablePost) {
 

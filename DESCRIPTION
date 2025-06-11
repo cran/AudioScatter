@@ -1,12 +1,12 @@
 Package: AudioScatter
 Type: Package
 Title: Audiogram Scattergrams
-Version: 0.1.0
+Version: 1.1.0
 Description: Creates pre- and post- intervention scattergrams based on audiometric data. These scattergrams are formatted for publication in Otology & Neurotology and other otolaryngology journals. For more details, see Gurgel et al (2012) <doi:10.1177/0194599812458401>, Oghalai and Jackler (2016) <doi:10.1177/0194599816638314>.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-Imports: tidyverse, ggplot2, dplyr, scales
+Imports: tidyverse, ggplot2, dplyr, scales, tibble, magrittr
 RoxygenNote: 7.3.2
 Suggests: testthat (>= 3.0.0)
 Config/testthat/edition: 3
@@ -18,10 +18,10 @@ Authors@R: c(person(given = c("Dorothy", "W."),
                       family = "Oghalai",
                       role = "aut"))
 NeedsCompilation: no
-Packaged: 2025-06-03 18:11:54 UTC; Dorothy Pan
+Packaged: 2025-06-11 21:46:31 UTC; Dorothy Pan
 Author: Dorothy W. Pan [aut, cre],
   John S. Oghalai [aut]
 Maintainer: Dorothy W. Pan <dorothy.pan@med.usc.edu>
 Depends: R (>= 3.5.0)
 Repository: CRAN
-Date/Publication: 2025-06-05 11:10:16 UTC
+Date/Publication: 2025-06-11 23:40:02 UTC
